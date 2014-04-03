@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/template-general.xhtml">
+
+	<ui:define name="titulo">
+		<center>
+			<img src="img/profesores.png" /> <br />
+			<ui:include src="snippets/language-form.xhtml" />
+		</center>
+	</ui:define>
+	<ui:define name="cuerpo">
+		<br />
+		<center>
+			<h:form>
+				<h:dataTable var="profesor" value="#{controllerUsuarios.profesores}"
+					border="1">
+					<h:column>
+						<f:facet name="header">#{msgs.nombre}</f:facet>#{profesor.nombre}</h:column>
+					<h:column>
+						<f:facet name="header">#{msgs.apellidos}</f:facet>#{profesor.apellidos}</h:column>
+					<h:column>
+						<f:facet name="header">#{msgs.correo}</f:facet>#{profesor.email}</h:column>
+					<h:column>
+						<f:facet name="header">#{msgs.asignaturas}</f:facet>#{profesor.asignaturas}</h:column>
+				</h:dataTable>
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>

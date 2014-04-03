@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template-general.xhtml">
+
+	<ui:define name="titulo">
+		<table>
+			<tr>
+				<td><h1>#{msgs.titulo_registro}</h1></td>
+				<td align="right"><ui:include
+						src="snippets/language-form.xhtml" /></td>
+			</tr>
+		</table>
+		<br></br>
+	</ui:define>
+	<center>
+		<ui:define name="cuerpo">
+			<h2>#{msgs.introduce_datos}</h2>
+			<h:form>
+				<h:selectOneMenu value="#{controllerUsuarios.nuevo_privilegios}">
+					<f:selectItem itemLabel="#{msgs.priv_alumno}"
+						itemValue="#{controllerUsuarios.nuevo_privilegios}" />
+					<f:selectItem itemLabel="#{msgs.priv_profesor}"
+						itemValue="#{controllerUsuarios.nuevo_privilegios}" />
+				</h:selectOneMenu>
+				<h:panelGrid columns="1">
+					<h:panelGrid columns="2">
+		#{msgs.new_id}
+		<h:panelGroup>
+							<h:inputText id="id" value="#{controllerUsuarios.nuevo_id}"
+								required="true" requiredMessage="#{msgs.campo_obligatorio}" />
+							<h:message for="id" />
+						</h:panelGroup>
+  
+		#{msgs.new_nombre} 
+		<h:panelGroup>
+							<h:inputText id="nombre"
+								value="#{controllerUsuarios.nuevo_nombre}" required="true"
+								requiredMessage="#{msgs.campo_obligatorio}" />
+							<h:message for="nombre" />
+						</h:panelGroup>
+				
+		#{msgs.new_apellidos} 
+		<h:panelGroup>
+							<h:inputText id="apellidos"
+								value="#{controllerUsuarios.nuevo_apellidos}" required="true"
+								requiredMessage="#{msgs.campo_obligatorio}" />
+							<h:message for="apellidos" />
+						</h:panelGroup>
+				
+		#{msgs.new_correo} 
+		<h:panelGroup>
+							<h:inputText id="correo"
+								value="#{controllerUsuarios.nuevo_correo}" required="true"
+								requiredMessage="#{msgs.campo_obligatorio}" />
+							<h:message for="correo" />
+						</h:panelGroup>
+				
+		#{msgs.new_contraseña} 
+		<h:panelGroup>
+							<h:inputSecret id="contraseña"
+								value="#{controllerUsuarios.nuevo_password}" required="true"
+								requiredMessage="#{msgs.campo_obligatorio}" />
+							<h:message for="contraseña" />
+						</h:panelGroup>
+				
+		#{msgs.new_repetir_contraseña} 
+		<h:panelGroup>
+							<h:inputSecret id="repetirContraseña"
+								value="#{controllerUsuarios.nuevo_repetir_password}"
+								required="true" requiredMessage="#{msgs.campo_obligatorio}" />
+							<h:message for="repetirContraseña" />
+						</h:panelGroup>
+						<center>
+							<h:commandButton align="left" value="#{msgs.enviar}"
+								action="#{controllerUsuarios.registro}">
+							</h:commandButton>
+						</center>
+					</h:panelGrid>
+				</h:panelGrid>
+			</h:form>
+			<h:outputLabel value="#{msgs.datos_invalidos}"
+				rendered="#{controllerUsuarios.registro_incorrecto}" />
+		</ui:define>
+	</center>
+</ui:composition>

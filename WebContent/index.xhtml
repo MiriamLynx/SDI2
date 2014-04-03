@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/template-general.xhtml">
+
+	<ui:define name="titulo">
+		<table>
+			<tr>
+				<td align="center"><img src="img/titulo1.png" /></td>
+			</tr>
+			<tr>
+				<td align="center"><img src="img/titulo2.png" /></td>
+				<td align="right"><ui:include
+						src="snippets/language-form.xhtml" /></td>
+			</tr>
+			<tr>
+				<td align="center"><img src="img/titulo3.png" /></td>
+			</tr>
+		</table>
+	</ui:define>
+	<ui:define name="cuerpo">
+		<br />
+		<center>
+			<ui:include src="snippets/login-form.xhtml" />
+			<h:outputLabel
+				value="Los datos introducidos no están asociados a ninguna cuenta o esta está desactivada"
+				rendered="#{controllerSesion.invalido}" />
+		</center>
+		<br />
+		<center>
+			<h:form>
+				<!-- Calls "someActionControllerMethod" and uses return value as base name of page to navigate to. -->
+				<h:commandLink value="#{msgs.listado_asignaturas}"
+					action="#{controllerAsignaturas.listadoAsignaturas}" />
+				<br></br>
+				<h:commandLink value="#{msgs.listado_profesores}"
+					action="#{controllerUsuarios.listadoProfesores}" />
+				<br></br>
+				<h:link value="#{msgs.registrarse}" outcome="registro" />
+			</h:form>
+			<img src="img/neko.png" />
+		</center>
+	</ui:define>
+</ui:composition>

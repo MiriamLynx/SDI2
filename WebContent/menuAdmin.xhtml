@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/template-general.xhtml">
+
+	<ui:define name="titulo">
+		<table>
+			<tr>
+				<td><h1>Bienvenido administrador</h1></td>
+				<td align="right"><ui:include
+						src="snippets/language-form.xhtml" /></td>
+			</tr>
+		</table>
+		<br></br>
+	</ui:define>
+	<ui:define name="cuerpo">
+		<ui:include src="snippets/menu-usuario.xhtml" />
+		<center>
+			<h:form>
+				<h:commandButton value="#{msgs.gestion_usuarios}"
+					action="#{controllerUsuarios.modificarDatos}" />
+			</h:form>
+			<br></br>
+			<h:form>
+				<h:commandButton value="#{msgs.gestion_asignaturas}"
+					action="#{controllerUsuarios.modificarDatos}" />
+			</h:form>
+			<br></br>
+			<h:form>
+				<h:commandButton value="#{msgs.gestion_matriculas}"
+					action="#{controllerUsuarios.modificarDatos}" />
+			</h:form>
+			<br></br>
+			<h:form>
+				<h:commandButton value="#{msgs.gestion_profesores}"
+					action="#{controllerUsuarios.modificarDatos}" />
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>

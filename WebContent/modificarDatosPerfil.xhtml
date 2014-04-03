@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template-general.xhtml">
+
+	<ui:define name="titulo">
+		<table>
+			<tr>
+				<td><h1>#{msgs.titulo_registro}</h1></td>
+				<td align="right"><ui:include
+						src="snippets/language-form.xhtml" /></td>
+			</tr>
+		</table>
+		<br></br>
+	</ui:define>
+	<ui:define name="cuerpo">
+		<center>
+			<table>
+				<tr>
+					<td><h:form>
+							<h:commandLink value="#{msgs.salir}"
+								action="#{controllerSesion.logout}" />
+						</h:form></td>
+				</tr>
+			</table>
+			<br />
+			<h:form>
+				<table border="1">
+					<tr>
+						<th>#{msgs.id}</th>
+						<th>#{controllerSesion.usuario.id}</th>
+					</tr>
+					<tr>
+						<th>#{msgs.nombre}</th>
+						<th><h:panelGroup>
+								<h:inputText id="nombre"
+									value="#{controllerSesion.usuario.nombre}" required="true"
+									requiredMessage="#{msgs.campo_obligatorio}" />
+								<h:message for="nombre" />
+							</h:panelGroup></th>
+					</tr>
+					<tr>
+						<th>#{msgs.apellidos}</th>
+						<th><h:panelGroup>
+								<h:inputText id="apellidos"
+									value="#{controllerSesion.usuario.apellidos}" required="true"
+									requiredMessage="#{msgs.campo_obligatorio}" />
+								<h:message for="apellidos" />
+							</h:panelGroup></th>
+					</tr>
+					<tr>
+						<th>#{msgs.correo}</th>
+						<th><h:panelGroup>
+								<h:inputText id="correo"
+									value="#{controllerSesion.usuario.email}" required="true"
+									requiredMessage="#{msgs.campo_obligatorio}" />
+								<h:message for="correo" />
+							</h:panelGroup></th>
+					</tr>
+				</table>
+				<br />
+				<center>
+					<h:commandButton align="left" value="#{msgs.enviar}"
+						action="#{controllerSesion.actualizar}">
+					</h:commandButton>
+				</center>
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>

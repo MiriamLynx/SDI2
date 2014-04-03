@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:panelGrid columns="1">
+		<h:form>
+			<h:panelGrid columns="2">
+		#{msgs.usuario}
+		<h:panelGroup>
+					<h:inputText id="id" value="#{controllerSesion.idUsuario}"
+						required="true" requiredMessage="#{msgs.campo_obligatorio}" />
+					<h:message for="id" />
+				</h:panelGroup>
+  
+		#{msgs.password} 
+		<h:panelGroup>
+					<h:inputSecret id="password" value="#{controllerSesion.password}"
+						required="true" requiredMessage="#{msgs.campo_obligatorio}" />
+					<h:message for="password" />
+				</h:panelGroup>
+				<center>
+					<h:commandButton align="left" value="#{msgs.enviar}"
+						action="#{controllerSesion.validar}">
+					</h:commandButton>
+				</center>
+			</h:panelGrid>
+		</h:form>
+	</h:panelGrid>
+</ui:composition>

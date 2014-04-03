@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form>
+		<center>
+			<table>
+				<tr>
+					<td><h:commandLink value="#{msgs.enlaceIdiomaES}"
+							actionListener="#{controllerSettings.setSpanish}">
+							<f:ajax execute="@this" render="@all" />
+						</h:commandLink></td>
+					<td><h:commandLink value="#{msgs.enlaceIdiomaEN}"
+							actionListener="#{controllerSettings.setEnglish}">
+							<f:ajax execute="@this" render="@all" />
+						</h:commandLink></td>
+				</tr>
+			</table>
+		</center>
+	</h:form>
+</ui:composition>

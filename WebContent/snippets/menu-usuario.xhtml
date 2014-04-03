@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<center>
+		<table>
+			<tr>
+				<td><h:form>
+						<h:commandLink value="#{msgs.salir}"
+							action="#{controllerSesion.logout}" />
+					</h:form></td>
+				<td><h:form>
+						<h:link value="#{msgs.editar_perfil}" outcome="editar" />
+					</h:form></td>
+			</tr>
+		</table>
+		<br />
+		<table border="1">
+			<tr>
+				<th>#{msgs.id}</th>
+				<th>#{controllerSesion.usuario.id}</th>
+			</tr>
+			<tr>
+				<th>#{msgs.nombre}</th>
+				<th>#{controllerSesion.usuario.nombre}</th>
+			</tr>
+			<tr>
+				<th>#{msgs.apellidos}</th>
+				<th>#{controllerSesion.usuario.apellidos}</th>
+			</tr>
+			<tr>
+				<th>#{msgs.correo}</th>
+				<th>#{controllerSesion.usuario.email}</th>
+			</tr>
+		</table>
+	</center>
+	<br></br>
+</ui:composition>
