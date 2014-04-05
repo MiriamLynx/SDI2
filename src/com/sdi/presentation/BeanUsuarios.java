@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.ActionEvent;
 
 import uo.sdi.util.Check;
 
@@ -19,12 +18,10 @@ public class BeanUsuarios implements Serializable {
 
 	private static final long serialVersionUID = 2220767639613106740L;
 
+	// Listado de profesores
 	private Usuario[] profesores = null;
 
-	private Usuario profesor = new Usuario();
-
-	private Usuario usuarioLogin = new Usuario();
-
+	// Campos de un nuevo usuario registrandose
 	private String nuevo_id;
 	private String nuevo_nombre;
 	private String nuevo_apellidos;
@@ -33,17 +30,22 @@ public class BeanUsuarios implements Serializable {
 	private String nuevo_password;
 	private String nuevo_privilegios;
 	private String nuevo_repetir_password;
+
+	// Error durante el registro
 	private boolean registro_incorrecto;
 
-	public BeanUsuarios() {
-		iniciaUsuario(null);
-	}
+	public String actualizarNota(Usuario alumno, String idAsignatura) {
+		UsuariosService service;
+		try {
+			service = Factories.services.createUsuariosService();
+			service.actualizarNota(idAsignatura, alumno.getId(),
+					alumno.getNota());
+			return "exito";
 
-	public void iniciaUsuario(ActionEvent event) {
-		profesor.setId("IdUser");
-		profesor.setNombre("Nombre");
-		profesor.setApellidos("Apellidos");
-		profesor.setEmail("email@domain.com");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 
 	public String listadoProfesores() {
@@ -52,14 +54,12 @@ public class BeanUsuarios implements Serializable {
 			service = Factories.services.createUsuariosService();
 			setProfesores((Usuario[]) service.getProfesores().toArray(
 					new Usuario[0]));
-
 			return "exito";
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
-
 	}
 
 	public String registro() {
@@ -80,28 +80,22 @@ public class BeanUsuarios implements Serializable {
 		}
 	}
 
+	public String traducirNota(int nota) {
+		if (nota == 11) {
+			return "No presentado";
+		} else if (nota == 12) {
+			return "Sin calificar";
+		} else {
+			return "" + nota;
+		}
+	}
+
 	public Usuario[] getProfesores() {
 		return profesores;
 	}
 
 	public void setProfesores(Usuario[] profesores) {
 		this.profesores = profesores;
-	}
-
-	public Usuario getProfesor() {
-		return profesor;
-	}
-
-	public void setProfesor(Usuario profesor) {
-		this.profesor = profesor;
-	}
-
-	public Usuario getUsuarioLogin() {
-		return usuarioLogin;
-	}
-
-	public void setUsuarioLogin(Usuario usuarioLogin) {
-		this.usuarioLogin = usuarioLogin;
 	}
 
 	public String getNuevo_id() {
@@ -175,4 +169,5 @@ public class BeanUsuarios implements Serializable {
 	public void setRegistro_incorrecto(boolean registro_incorrecto) {
 		this.registro_incorrecto = registro_incorrecto;
 	}
+
 }

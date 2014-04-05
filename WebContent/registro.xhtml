@@ -18,11 +18,11 @@
 		<ui:define name="cuerpo">
 			<h2>#{msgs.introduce_datos}</h2>
 			<h:form>
-				<h:selectOneMenu value="#{controllerUsuarios.nuevo_privilegios}">
-					<f:selectItem itemLabel="#{msgs.priv_alumno}"
-						itemValue="#{controllerUsuarios.nuevo_privilegios}" />
+				<h:selectOneMenu value="#{controllerUsuarios.nuevo_privilegios}"
+					required="true">
+					<f:selectItem itemLabel="#{msgs.priv_alumno}" itemValue="alumno" />
 					<f:selectItem itemLabel="#{msgs.priv_profesor}"
-						itemValue="#{controllerUsuarios.nuevo_privilegios}" />
+						itemValue="profesor" />
 				</h:selectOneMenu>
 				<h:panelGrid columns="1">
 					<h:panelGrid columns="2">

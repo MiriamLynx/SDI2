@@ -89,6 +89,7 @@ INSERT INTO TUSUARIOS VALUES('mufy','Mufy','Gatez','mufy@catmpus.es','asd','prof
 INSERT INTO TUSUARIOS VALUES('petra','Petra','Hunter','petra@catmpus.es','asd','profesor',TRUE)
 INSERT INTO TUSUARIOS VALUES('pipo','Pipo','Angel','pipo@catmpus.es','asd','profesor',TRUE)
 INSERT INTO TUSUARIOS VALUES('simon','Simon','Knight','simon@catmpus.es','asd','profesor',TRUE)
+INSERT INTO TUSUARIOS VALUES('tetalius','Marta','tetus','tetalis','asd','administrador',TRUE)
 INSERT INTO TMATRICULAS VALUES(8,'UO01','CC14')
 INSERT INTO TMATRICULAS VALUES(6,'UO02','CC13')
 INSERT INTO TMATRICULAS VALUES(10,'UO03','CC12')

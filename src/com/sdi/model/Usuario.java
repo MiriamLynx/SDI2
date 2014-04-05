@@ -11,6 +11,9 @@ public class Usuario {
 	private String password;
 	private boolean activado;
 	private String privilegios;
+	private int nota;
+
+	// Asignaturas de un profesor
 	private List<Asignatura> asignaturas;
 
 	public Usuario(String id, String nombre, String apellidos, String email,
@@ -101,5 +104,13 @@ public class Usuario {
 			builder.append(apellidos);
 		builder.append(" ");
 		return builder.toString();
+	}
+
+	public int getNota() {
+		return nota;
+	}
+
+	public void setNota(int nota) {
+		this.nota = nota;
 	}
 }

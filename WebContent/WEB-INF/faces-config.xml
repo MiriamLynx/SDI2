@@ -99,4 +99,94 @@
 		</navigation-case>
 	</navigation-rule>
 
+	<navigation-rule>
+		<from-view-id>/menuAlumno.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>editar</from-outcome>
+			<to-view-id>/modificarDatosPerfil.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/menuProfesor.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{controllerSesion.verAsignaturasImpartidas}</from-action>
+			<from-outcome>exito</from-outcome>
+			<to-view-id>/asignaturasImpartidas.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome></from-outcome>
+			<to-view-id>/modificarDatosPerfil.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/modificarDatosPerfil.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>exito alumno</from-outcome>
+			<to-view-id>/menuAlumno.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>exito profesor</from-outcome>
+			<to-view-id>/menuProfesor.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>exito admin</from-outcome>
+			<to-view-id>/menuAdmin.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modificar contraseña</from-outcome>
+			<to-view-id>/cambiarPassword.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/cambiarPassword.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>exito alumno</from-outcome>
+			<to-view-id>/menuAlumno.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>exito profesor</from-outcome>
+			<to-view-id>/menuProfesor.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>exito admin</from-outcome>
+			<to-view-id>/menuAdmin.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>nomatch</from-outcome>
+			<to-view-id>/cambiarPassword.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/asignaturasImpartidas.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>exito</from-outcome>
+			<to-view-id>/alumnosMatriculados.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/alumnosMatriculados.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>exito</from-outcome>
+			<to-view-id>/alumnosMatriculados.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
 </faces-config>

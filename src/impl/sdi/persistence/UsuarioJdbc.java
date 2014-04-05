@@ -24,6 +24,9 @@ public class UsuarioJdbc {
 	private static final String GET_USUARIO_BY_ID = "select distinct u.* from TUsuarios u where u.id = ?";
 	private static final String GET_VALIDATED_USER = "select distinct u.* from TUsuarios u where u.id = ? and u.password = ? and u.validado = true";
 	private static final String INSERTAR_USUARIO = "INSERT INTO TUSUARIOS VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+	private static final String MODIFICAR_USUARIO_BY_ID = "update tusuarios set nombre = ?, apellidos = ?, correo = ? where id = ?";
+	private static final String MODIFICAR_PASSWORD_BY_ID = "update tusuarios set password = ? where id = ?";
+	private static final String MODIFICAR_NOTA = "update tmatriculas set calificacion = ? where id_usuario = ? and id_asignatura = ?";
 
 	private static Connection c = null;
 
@@ -51,50 +54,34 @@ public class UsuarioJdbc {
 			e.printStackTrace();
 			throw new PersistenceException("Invalid SQL or database schema", e);
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
-			if (st != null) {
-				try {
-					st.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
-			if (c != null) {
-				try {
-					c.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
+			Jdbc.close(rs, st);
+			Jdbc.close(c);
 		}
 
 		return profesores;
 	}
 
-	public static List<Asignatura> getAsignaturasByProfesorId(String id)
-			throws SQLException {
-
+	public List<Asignatura> getAsignaturasByProfesorId(String id) {
 		List<Asignatura> asignaturas = new ArrayList<Asignatura>();
-
-		c = Jdbc.getConnection();
-		PreparedStatement ps = c
-				.prepareStatement(GET_ASIGNATURAS_BY_PROFESOR_ID);
-		ps.setString(1, id);
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			Asignatura asignatura = new Asignatura(rs.getString("id"),
-					rs.getString("nombre"), rs.getInt("creditos"),
-					rs.getString("curso"));
-			asignaturas.add(asignatura);
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			c = Jdbc.getConnection();
+			ps = c.prepareStatement(GET_ASIGNATURAS_BY_PROFESOR_ID);
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Asignatura asignatura = new Asignatura(rs.getString("id"),
+						rs.getString("nombre"), rs.getInt("creditos"),
+						rs.getString("curso"));
+				asignaturas.add(asignatura);
+			}
+			Jdbc.close(rs, ps);
+			Jdbc.close(c);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new PersistenceException("Invalid SQL or database schema", e);
 		}
-		Jdbc.close(rs, ps);
-		Jdbc.close(c);
 		return asignaturas;
 	}
 
@@ -117,27 +104,8 @@ public class UsuarioJdbc {
 			e.printStackTrace();
 			throw new PersistenceException("Invalid SQL or database schema", e);
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
-			if (c != null) {
-				try {
-					c.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
+			Jdbc.close(rs, ps);
+			Jdbc.close(c);
 		}
 		return null;
 	}
@@ -162,36 +130,18 @@ public class UsuarioJdbc {
 			e.printStackTrace();
 			throw new PersistenceException("Invalid SQL or database schema", e);
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
-			if (c != null) {
-				try {
-					c.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
+			Jdbc.close(rs, ps);
+			Jdbc.close(c);
 		}
 		return null;
 	}
 
 	public void insertarUsuario(String id, String nombre, String apellidos,
 			String correo, boolean validado, String password, String privilegios) {
+		PreparedStatement ps = null;
 		try {
 			c = Jdbc.getConnection();
-			PreparedStatement ps = c.prepareStatement(INSERTAR_USUARIO);
+			ps = c.prepareStatement(INSERTAR_USUARIO);
 			ps.setString(1, id);
 			ps.setString(2, nombre);
 			ps.setString(3, apellidos);
@@ -202,15 +152,68 @@ public class UsuarioJdbc {
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new BusinessException("Invalid SQL or database schema", e);
+			throw new BusinessException("Invalid values", e);
 		} finally {
-			if (c != null) {
-				try {
-					c.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
+			Jdbc.close(ps);
+			Jdbc.close(c);
+		}
+	}
+
+	public void actualizarPerfil(String id, String nombre, String apellidos,
+			String email) {
+		PreparedStatement ps = null;
+		try {
+			c = Jdbc.getConnection();
+			ps = c.prepareStatement(MODIFICAR_USUARIO_BY_ID);
+			ps.setString(1, nombre);
+			ps.setString(2, apellidos);
+			ps.setString(3, email);
+			ps.setString(4, id);
+			ps.executeUpdate();
+			Jdbc.close(ps);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new BusinessException("Invalid values", e);
+		} finally {
+			Jdbc.close(ps);
+			Jdbc.close(c);
+		}
+	}
+
+	public void actualizarPassword(String id, String nuevo_password) {
+		PreparedStatement ps = null;
+		try {
+			c = Jdbc.getConnection();
+			ps = c.prepareStatement(MODIFICAR_PASSWORD_BY_ID);
+			ps.setString(1, nuevo_password);
+			ps.setString(2, id);
+			ps.executeUpdate();
+			Jdbc.close(ps);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new BusinessException("Invalid values", e);
+		} finally {
+			Jdbc.close(ps);
+			Jdbc.close(c);
+		}
+	}
+
+	public int actualizarNota(String idAsignatura, String idAlumno, int nota) {
+		PreparedStatement ps = null;
+		try {
+			c = Jdbc.getConnection();
+			ps = c.prepareStatement(MODIFICAR_NOTA);
+			ps.setInt(1, nota);
+			ps.setString(2, idAlumno);
+			ps.setString(3, idAsignatura);
+			ps.executeUpdate();
+			return nota;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new BusinessException("Invalid values", e);
+		} finally {
+			Jdbc.close(ps);
+			Jdbc.close(c);
 		}
 	}
 }

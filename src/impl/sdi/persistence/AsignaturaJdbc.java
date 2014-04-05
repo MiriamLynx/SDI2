@@ -20,6 +20,8 @@ public class AsignaturaJdbc {
 	private static final String GET_PROFESORES_BY_ASIGNATURA_ID = "SELECT distinct u.* FROM Tusuarios u, TImparte i, "
 			+ "TAsignaturas a WHERE u.id = i.id_usuario "
 			+ "AND a.id = i.id_asignatura" + " AND a.id = ? ";
+	private static final String GET_ALUMNOS_BY_ASIGNATURA_ID = "select distinct u.* from tasignaturas a, tmatriculas m, tusuarios u where u.id = m.id_usuario and m.id_asignatura = a.id and a.id = ?";
+	private static final String GET_NOTA_BY_ALUMNO_ID = "select calificacion from tmatriculas where id_usuario = ? and id_asignatura = ?";
 
 	private static Connection c = null;
 
@@ -41,56 +43,84 @@ public class AsignaturaJdbc {
 				asignaturas.add(asignatura);
 
 			}
+			Jdbc.close(rs, st);
+			Jdbc.close(c);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new PersistenceException("Invalid SQL or database schema", e);
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
-			if (st != null) {
-				try {
-					st.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
-			if (c != null) {
-				try {
-					c.close();
-				} catch (Exception ex) {
-				}
-			}
-			;
 		}
 
 		return asignaturas;
 	}
 
-	public static List<Usuario> getProfesoresByAsignaturaId(String idAsignatura)
-			throws SQLException {
+	public static List<Usuario> getProfesoresByAsignaturaId(String idAsignatura) {
 
 		List<Usuario> profesores = new ArrayList<Usuario>();
+		try {
+			c = Jdbc.getConnection();
+			PreparedStatement ps = c
+					.prepareStatement(GET_PROFESORES_BY_ASIGNATURA_ID);
+			ps.setString(1, idAsignatura);
+			ResultSet rs = ps.executeQuery();
 
-		c = Jdbc.getConnection();
-		PreparedStatement ps = c
-				.prepareStatement(GET_PROFESORES_BY_ASIGNATURA_ID);
-		ps.setString(1, idAsignatura);
-		ResultSet rs = ps.executeQuery();
-
-		while (rs.next()) {
-			Usuario profesor = new Usuario(rs.getString("id"),
-					rs.getString("nombre"), rs.getString("apellidos"),
-					rs.getString("correo"), rs.getString("password"),
-					rs.getBoolean("validado"), rs.getString("privilegios"));
-			profesores.add(profesor);
+			while (rs.next()) {
+				Usuario profesor = new Usuario(rs.getString("id"),
+						rs.getString("nombre"), rs.getString("apellidos"),
+						rs.getString("correo"), rs.getString("password"),
+						rs.getBoolean("validado"), rs.getString("privilegios"));
+				profesores.add(profesor);
+			}
+			Jdbc.close(rs, ps);
+			Jdbc.close(c);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new PersistenceException("Invalid SQL or database schema", e);
 		}
-		Jdbc.close(rs, ps);
-		Jdbc.close(c);
 		return profesores;
+	}
+
+	public List<Usuario> getAlumnos(String idAsignatura) {
+		List<Usuario> alumnos = new ArrayList<Usuario>();
+		try {
+			c = Jdbc.getConnection();
+			PreparedStatement ps = c
+					.prepareStatement(GET_ALUMNOS_BY_ASIGNATURA_ID);
+			ps.setString(1, idAsignatura);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Usuario alumno = new Usuario(rs.getString("id"),
+						rs.getString("nombre"), rs.getString("apellidos"),
+						rs.getString("correo"), rs.getString("password"),
+						rs.getBoolean("validado"), rs.getString("privilegios"));
+				alumno.setNota(getNota(rs.getString("id"), idAsignatura));
+				alumnos.add(alumno);
+			}
+			Jdbc.close(rs, ps);
+			Jdbc.close(c);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new PersistenceException("Invalid SQL or database schema", e);
+		}
+		return alumnos;
+	}
+
+	public int getNota(String idAlumno, String idAsignatura) {
+		int nota = Integer.MAX_VALUE;
+		try {
+			c = Jdbc.getConnection();
+			PreparedStatement ps = c.prepareStatement(GET_NOTA_BY_ALUMNO_ID);
+			ps.setString(1, idAlumno);
+			ps.setString(2, idAsignatura);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				nota = rs.getInt("calificacion");
+			}
+			Jdbc.close(rs, ps);
+			Jdbc.close(c);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new PersistenceException("Invalid SQL or database schema", e);
+		}
+		return nota;
 	}
 }

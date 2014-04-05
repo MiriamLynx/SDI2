@@ -13,4 +13,10 @@ public interface UsuariosService {
 			String correo, boolean validado, String password, String privilegios)
 			throws BusinessException;
 
+	void actualizarPerfil(Usuario usuario) throws Exception;
+
+	void actualizarPassword(String id, String nuevo_password);
+
+	void actualizarNota(String idAsignatura, String idAlumno, int nota);
+
 }

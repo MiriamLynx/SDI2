@@ -18,8 +18,8 @@
 		<ui:include src="snippets/menu-usuario.xhtml" />
 		<center>
 			<h:form>
-				<h:commandButton value="Ver asignaturas"
-					action="#{controllerUsuarios.modificarDatos}" />
+				<h:commandButton value="#{msgs.ver_asignaturas}"
+					action="#{controllerSesion.verAsignaturasImpartidas}" />
 			</h:form>
 		</center>
 	</ui:define>
